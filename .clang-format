@@ -1,0 +1,44 @@
+---
+Language: Cpp
+BasedOnStyle: Google
+AlignOperands: true
+ColumnLimit: 100
+
+# 自动识别代码中的指针对齐方式，如果希望强制统一，则可以改为 false
+DerivePointerAlignment: false
+
+# 默认对齐到类型名
+PointerAlignment: Left
+
+# Only sort headers in each include block
+SortIncludes: true
+IncludeBlocks: Preserve
+
+# 缩进长度
+IndentWidth: 4
+# public、private等缩进长度
+AccessModifierOffset: -4
+
+# 注释关键字对齐(const/volatile)
+# - Leave: - 不改变开发者定义
+# - Left: 位于类型前
+# - Right: 位于类型后
+# - Custom: 自定义
+QualifierAlignment: Leave
+# 是否允许clang-format尝试重新粘合注释(true/false), 不建议使用
+ReflowComments:  false
+# Trailing注释前的空格数
+SpacesBeforeTrailingComments: 1
+# 行注释前的空格范围数量, 建议Maximum关闭, 设置成-1, 即//到你的注释内容前的空格数量至少是1, 至多是无穷
+SpacesInLineCommentPrefix:
+  Minimum:         1
+  Maximum:         -1
+
+---
+Language: Proto
+BasedOnStyle: Google
+ColumnLimit: 150
+AlignConsecutiveDeclarations: true
+AlignConsecutiveAssignments: true
+---
+
