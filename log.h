@@ -79,8 +79,14 @@ struct Log {
     static LogLevel get_log_lev();
     static void write_file(bool is_write_file);
 
-    /// 设置文件时不能设置未创建好的多级目录
     static void set_log_file(const std::string& file_path);
+
+    /// @brief  在所有set_xxx后调用，
+    // 不调用init不会输出文件，只会输出控制台
+    /// @return false时说明文件打不开
+    static bool init();
+    /// @brief 程序结束时可手动调用清理资源，也可不调用，等系统自动清理
+    static void deinit();
 
     template <class... Args>
     static void log_print(const char* file, int line, const char* function, const char* color,
@@ -122,7 +128,7 @@ void Log::log_print(const char* file, int line, const char* function, const char
     // write file
     std::lock_guard<std::mutex> lock(Log::mtx_);
     auto log = get_instance();
-    if (!log->is_write_file_) return;
+    if (!log->of.is_open() || !log->is_write_file_) return;
     log->of << ss.str();
     log->of.flush();
 }
