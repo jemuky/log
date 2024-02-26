@@ -71,82 +71,61 @@ struct Log {
     std::string log_file_ = "./log.log";
     std::ofstream of;
 
-    static std::mutex mtx_;
-    static Log* log_;
-
     Log& operator=(const Log&) = delete;
 
-    static Log* get_instance() {
-        if (log_ == nullptr) {
-            std::lock_guard<std::mutex> lock(mtx_);
-            if (log_ == nullptr) {
-                log_ = new Log();
-                log_->of.open(log_->log_file_, std::ios::app);
-                if (!log_->of.is_open()) {
-                    log_->is_write_file_ = false;
-                    delete log_;
-                }
-            }
-        }
-        return log_;
-    }
+    static Log* get_instance();
 
-    static void set_log_lev(LogLevel lev) { get_instance()->log_lev_ = lev; }
-    static LogLevel get_log_lev() { return get_instance()->log_lev_; }
-    static void write_file(bool is_write_file) { get_instance()->is_write_file_ = is_write_file; }
+    static void set_log_lev(LogLevel lev);
+    static LogLevel get_log_lev();
+    static void write_file(bool is_write_file);
 
     /// 设置文件时不能设置未创建好的多级目录
-    static void set_log_file(const std::string& file_path) {
-        std::lock_guard<std::mutex> lock(Log::mtx_);
-        auto log = get_instance();
-        log->log_file_ = file_path;
-        log->of.close();
-        log->of.open(log->log_file_, std::ios::app);
-        if (!log->of.is_open()) {
-            log->is_write_file_ = false;
-            std::cout << __LOG_COLOR_ERR__ << std::strerror(errno) << __LOG_COLOR_END__
-                      << std::endl;
-            delete log_;
-        }
-    }
+    static void set_log_file(const std::string& file_path);
 
     template <class... Args>
     static void log_print(const char* file, int line, const char* function, const char* color,
-                          const char* prefix, const Args&... args) {
-        // 时间
-        auto now = std::chrono::system_clock::now();
-        std::time_t now_time_t = std::chrono::system_clock::to_time_t(now);
-        // 获取微秒部分
-        auto microseconds =
-            std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
-        // 将微秒部分转换为字符串
-        std::string microseconds_str = std::to_string(microseconds);
+                          const char* prefix, const Args&... args);
 
-        // 主要字符串拼接
-        std::stringstream ss;
-        ss << std::boolalpha << std::left << std::setw(8) << prefix
-           << std::put_time(std::localtime(&now_time_t), "%Y-%m-%d %H:%M:%S") << "."
-           << microseconds_str.substr(0, 5) << "  " << file << "(" << function << ")"
-           << ":" << line << ": ";
-        auto print_func = [&](auto i) { ss << i; };
-        std::initializer_list<int>{(print_func(args), 0)...};
-        ss << "\n";
-        ss.flush();
+private:
+    static std::mutex mtx_;
+    static Log* log_;
 
-        // console
-        std::cout << color << ss.str() << __LOG_COLOR_END__;
-
-        // write file
-        std::lock_guard<std::mutex> lock(Log::mtx_);
-        auto log = get_instance();
-        if (!log->is_write_file_) return;
-        log->of << ss.str();
-        log->of.flush();
-    }
+    Log();
 };
 
-std::mutex Log::mtx_;
-Log* Log::log_ = nullptr;
+template <class... Args>
+void Log::log_print(const char* file, int line, const char* function, const char* color,
+                    const char* prefix, const Args&... args) {
+    // 时间
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time_t = std::chrono::system_clock::to_time_t(now);
+    // 获取微秒部分
+    auto microseconds =
+        std::chrono::duration_cast<std::chrono::microseconds>(now.time_since_epoch()).count();
+    // 将微秒部分转换为字符串
+    std::string microseconds_str = std::to_string(microseconds);
+
+    // 主要字符串拼接
+    std::stringstream ss;
+    ss << std::boolalpha << std::left << std::setw(8) << prefix
+       << std::put_time(std::localtime(&now_time_t), "%Y-%m-%d %H:%M:%S") << "."
+       << microseconds_str.substr(0, 5) << "  " << file << "(" << function << ")"
+       << ":" << line << ": ";
+    auto print_func = [&](auto i) { ss << i; };
+    std::initializer_list<int>{(print_func(args), 0)...};
+    ss << "\n";
+    ss.flush();
+
+    // console
+    std::cout << color << ss.str() << __LOG_COLOR_END__;
+
+    // write file
+    std::lock_guard<std::mutex> lock(Log::mtx_);
+    auto log = get_instance();
+    if (!log->is_write_file_) return;
+    log->of << ss.str();
+    log->of.flush();
+}
 
 #ifdef _WIN32
 #define PARAM_ERR_FUNCTION __FUNCSIG__
