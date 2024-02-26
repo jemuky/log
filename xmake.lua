@@ -9,3 +9,14 @@ target('log_test')
 
     add_files('test/*.cpp')
     add_files('log.cpp')
+
+target('log')
+    set_kind('static')
+    set_languages('cxx11')
+
+    if is_plat('windows') then
+        -- 编译选项
+        add_cxflags('/utf-8')
+    end
+
+    add_files('log.cpp')
