@@ -112,8 +112,9 @@ void Log::log_print(const char* file, int line, const char* function, const char
     // 主要字符串拼接
     std::stringstream ss;
     ss << std::boolalpha << std::left << std::setw(8) << prefix
-       << std::put_time(std::localtime(&now_time_t), "%Y-%m-%d %H:%M:%S") << "."
-       << (microseconds % 100000) << "  " << file << ":" << line << "(" << function << ")"
+       << std::put_time(std::localtime(&now_time_t), "%Y-%m-%d %H:%M:%S") << "." << std::right
+       << std::setw(5) << std::setfill('0') << (microseconds % 100000) << "  " << file << ":"
+       << line << "(" << function << ")"
        << ": ";
     auto print_func = [&](auto i) { ss << i; };
     std::initializer_list<int>{(print_func(args), 0)...};
