@@ -66,11 +66,6 @@ enum class LogLevel {
 
 /// @brief 写文件时，若多级目录没创建，会失败
 struct Log {
-    LogLevel log_lev_ = LogLevel::Debug;
-    bool is_write_file_ = true;
-    std::string log_file_ = "./log.log";
-    std::ofstream of;
-
     Log& operator=(const Log&) = delete;
 
     static Log* get_instance();
@@ -93,8 +88,13 @@ struct Log {
                           const char* prefix, const Args&... args);
 
 private:
-    static std::mutex mtx_;
-    static Log* log_;
+    static std::mutex __mtx_;
+    static Log* __log_;
+
+    LogLevel __log_lev_;
+    bool __is_write_file_;
+    std::string __log_file_;
+    std::ofstream __ofs_;
 
     Log();
 };
@@ -115,8 +115,8 @@ void Log::log_print(const char* file, int line, const char* function, const char
     std::stringstream ss;
     ss << std::boolalpha << std::left << std::setw(8) << prefix
        << std::put_time(std::localtime(&now_time_t), "%Y-%m-%d %H:%M:%S") << "."
-       << microseconds_str.substr(0, 5) << "  " << file << "(" << function << ")"
-       << ":" << line << ": ";
+       << microseconds_str.substr(0, 5) << "  " << file << ":" << line << "(" << function << ")"
+       << ": ";
     auto print_func = [&](auto i) { ss << i; };
     std::initializer_list<int>{(print_func(args), 0)...};
     ss << "\n";
@@ -126,11 +126,11 @@ void Log::log_print(const char* file, int line, const char* function, const char
     std::cout << color << ss.str() << __LOG_COLOR_END__;
 
     // write file
-    std::lock_guard<std::mutex> lock(Log::mtx_);
+    std::lock_guard<std::mutex> lock(Log::__mtx_);
     auto log = get_instance();
-    if (!log->of.is_open() || !log->is_write_file_) return;
-    log->of << ss.str();
-    log->of.flush();
+    if (!log->__ofs_.is_open() || !log->__is_write_file_) return;
+    log->__ofs_ << ss.str();
+    log->__ofs_.flush();
 }
 
 #ifdef _WIN32
