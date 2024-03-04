@@ -1,10 +1,10 @@
 # Usage
 
 ```cpp
-#include "log.hpp"
+#include "log.h"
 
 int main() {
-    set_log_lev(LogLevel::Debug);
+    Log::set_log_lev(LogLevel::Debug);
     
     DEBUG(111);
     INFO(222);
