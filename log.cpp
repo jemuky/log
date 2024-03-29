@@ -30,20 +30,12 @@ void Log::set_log_file(const std::string& file_path) {
 
 bool Log::init() {
     // 获取文件夹与文件的分割
-    auto bslash = __log_->__log_file_.find_last_of('\\');
-    auto slash = __log_->__log_file_.find_last_of("/");
+    auto index = __log_->__log_file_.find_last_of("\\/");
 
     std::string log_file_path, log_path;
-    if (bslash == std::string::npos && slash == std::string::npos) {
+    if (index == std::string::npos) {
         log_file_path = __log_->__log_file_;
-    } else if (bslash == std::string::npos && slash != std::string::npos) {
-        log_file_path = __log_->__log_file_.substr(slash + 1);
-        log_path = __log_->__log_file_.substr(0, slash);
-    } else if (bslash != std::string::npos && slash == std::string::npos) {
-        log_file_path = __log_->__log_file_.substr(bslash + 1);
-        log_path = __log_->__log_file_.substr(0, bslash);
     } else {
-        auto index = bslash > slash ? bslash : slash;
         log_file_path = __log_->__log_file_.substr(index + 1);
         log_path = __log_->__log_file_.substr(0, index);
     }

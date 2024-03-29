@@ -4,7 +4,7 @@
 
 int main() {
     Log::set_log_lev(LogLevel::Debug);
-    Log::set_log_file("abc/tmp/log.log");
+    Log::set_log_file("abc/tmp/def\\log.log");
     if (!Log::init()) {
         return -1;
     }
