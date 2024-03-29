@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -43,12 +44,14 @@
 #define __LOG_COLOR_WARN__ "\u001b[33m"
 #define __LOG_COLOR_INFO__ "\u001b[94m"
 #define __LOG_COLOR_DEBUG__ "\u001b[95m"
+
 #elif __linux__
 #define __LOG_COLOR_END__ "\033[0m"
 #define __LOG_COLOR_ERR__ "\033[31m"
 #define __LOG_COLOR_WARN__ "\033[33m"
 #define __LOG_COLOR_INFO__ "\033[34m"
 #define __LOG_COLOR_DEBUG__ "\033[30m"
+
 #else
 #define __LOG_COLOR_END__ ""
 #define __LOG_COLOR_ERR__ ""
@@ -64,7 +67,6 @@ enum class LogLevel {
     Error = 3,
 };
 
-/// @brief 写文件时，若多级目录没创建，会失败
 struct Log {
     Log& operator=(const Log&) = delete;
 
