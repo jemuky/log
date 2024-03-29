@@ -1,6 +1,6 @@
 @echo off
 
-git config user.name jymk
+git config user.name jemuky
 git config user.email jymkyu@outlook.com
 git add .
 git commit
