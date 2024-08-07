@@ -23,14 +23,14 @@ package('log')
             void test() {
                 DEBUG("log import suc");
             }
-        ]]}, {configs = {languages = "c++11"}, includes = "log.h"}))
+        ]]}, {configs = {languages = "c++20"}, includes = "log.h"}))
     end)
 package_end()
 
 
 target('log_test')
     set_kind('binary')
-    set_languages('cxx17')
+    set_languages('cxx20')
     
     if is_plat('windows') then
         -- 编译选项
