@@ -100,6 +100,7 @@ private:
 
     Log();
     static Log& get_instance();
+    ~Log();
 };
 
 template <class... Args>

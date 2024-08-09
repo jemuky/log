@@ -12,6 +12,8 @@ Log& Log::get_instance() {
     return __log_;
 }
 
+Log::~Log() { __ofs_.close(); }
+
 void Log::set_log_lev(LogLevel lev) { get_instance().__log_lev_ = lev; }
 LogLevel Log::get_log_lev() { return get_instance().__log_lev_; }
 void Log::write_file(bool is_write_file) { get_instance().__is_write_file_ = is_write_file; }
