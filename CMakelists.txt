@@ -11,10 +11,6 @@ add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 add_compile_options(/utf-8 /Os /Od)
 
-aux_source_directory(test/ TEST_DIR)  
-
-add_executable(log_test log.cpp ${TEST_DIR})  
-
 add_library(jelog STATIC log.cpp)
 
 # 如果直接设置当前路径会被认为是绝对路径，故看起来只能这样设置
@@ -53,3 +49,12 @@ install(
 # install(FILES <files>
 #     DESTINATION <path>
 # )
+
+# 测试选项
+if(BUILD_TESTING) 
+    enable_testing()
+    aux_source_directory(test/ TEST_DIR)  
+    add_executable(log_test log.cpp ${TEST_DIR})  
+    target_link_libraries(log_test PRIVATE jelog)
+    add_test(NAME LogTest COMMAND log_test)
+endif()

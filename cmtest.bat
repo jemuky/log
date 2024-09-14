@@ -7,7 +7,7 @@ if not exist %BUILD_DIR% (
 ) 
 
 cd %BUILD_DIR%
-cmake ..
+cmake -DBUILD_TESTING=ON ..
 if %ERRORLEVEL% neq 0 (
     @echo cmake failed
     cd ..
