@@ -36,14 +36,14 @@ install(
     # 为导出的目标指定一个命名空间
     NAMESPACE je::
     # 指定安装路径
-    DESTINATION jelog
+    # DESTINATION jelog
 )
 
 # 用于安装整个目录及其内容，通常用于安装头文件或资源文件
-# install(DIRECTORY <directory>
-#     [DESTINATION <path>]
-#     [PATTERN <pattern> EXCLUDE]
-# )
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+    DESTINATION include/jelog
+    FILES_MATCHING PATTERN "*.h"
+)
 
 # 用于安装单个文件
 # install(FILES <files>
