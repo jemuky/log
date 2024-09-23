@@ -41,8 +41,8 @@ install(
 
 # 用于安装整个目录及其内容，通常用于安装头文件或资源文件
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-    DESTINATION include/jelog
-    FILES_MATCHING PATTERN "*.h"
+    DESTINATION include
+    FILES_MATCHING PATTERN "log.h"
 )
 
 # 用于安装单个文件
