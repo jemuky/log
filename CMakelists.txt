@@ -16,8 +16,8 @@ add_library(${PROJECT_NAME} STATIC log.cpp)
 # 如果直接设置当前路径会被认为是绝对路径，故看起来只能这样设置
 target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/.> $<INSTALL_INTERFACE:include>)
 
-install(EXPORT ${PROJECT_NAME}Targets NAMESPACE ${PROJECT_NAME}:: DESTINATION lib)
-export(EXPORT ${PROJECT_NAME}Targets NAMESPACE ${PROJECT_NAME}::)
+install(EXPORT ${PROJECT_NAME} NAMESPACE ${PROJECT_NAME}:: DESTINATION lib)
+export(EXPORT ${PROJECT_NAME} NAMESPACE ${PROJECT_NAME}::)
 
 # 用于安装指定的目标（如库或可执行文件）
 # install(TARGETS jelog
