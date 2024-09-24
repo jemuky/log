@@ -5,45 +5,48 @@ project (jelog LANGUAGES C CXX VERSION 0.0.1)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
-set(CMAKE_BUILD_TYPE Release)
+# set(CMAKE_BUILD_TYPE Release)
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
 add_compile_options(/utf-8 /Os /Od)
 
-add_library(jelog STATIC log.cpp)
+add_library(${PROJECT_NAME} STATIC log.cpp)
 
 # 如果直接设置当前路径会被认为是绝对路径，故看起来只能这样设置
-target_include_directories(jelog INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/.> $<INSTALL_INTERFACE:include>)
+target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/.> $<INSTALL_INTERFACE:include>)
+
+install(EXPORT ${PROJECT_NAME}Targets NAMESPACE ${PROJECT_NAME}:: DESTINATION lib)
+export(EXPORT ${PROJECT_NAME}Targets NAMESPACE ${PROJECT_NAME}::)
 
 # 用于安装指定的目标（如库或可执行文件）
-install(TARGETS jelog
-    EXPORT jelog
-    # 可执行文件的安装路径
-    # RUNTIME DESTINATION lib
-    # 共享库的安装路径
-    # LIBRARY DESTINATION lib
-    # 静态库的安装路径
-    ARCHIVE DESTINATION .
-)
+# install(TARGETS jelog
+#     EXPORT jelog
+#     # 可执行文件的安装路径
+#     # RUNTIME DESTINATION lib
+#     # 共享库的安装路径
+#     # LIBRARY DESTINATION lib
+#     # 静态库的安装路径
+#     ARCHIVE DESTINATION .
+# )
 
-# # 用于安装导出目标的配置文件，使得其他项目可以通过 find_package 找到这个库
-install(
-    # 与上面 install(TARGETS 的 EXPORT 名称一致
-    EXPORT jelog 
-    # 要生成的 CMake 配置文件的名称
-    FILE jelogConfig.cmake
-    # 为导出的目标指定一个命名空间
-    NAMESPACE je::
-    # 指定安装路径
-    DESTINATION .
-)
+# 用于安装导出目标的配置文件，使得其他项目可以通过 find_package 找到这个库
+# install(
+#     # 与上面 install(TARGETS 的 EXPORT 名称一致
+#     EXPORT jelog 
+#     # 要生成的 CMake 配置文件的名称
+#     FILE jelogConfig.cmake
+#     # 为导出的目标指定一个命名空间
+#     NAMESPACE je::
+#     # 指定安装路径
+#     DESTINATION .
+# )
 
 # 用于安装整个目录及其内容，通常用于安装头文件或资源文件
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-    DESTINATION include
-    FILES_MATCHING PATTERN "log.h"
-)
+# install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+#     DESTINATION include
+#     FILES_MATCHING PATTERN "log.h"
+# )
 
 # 用于安装单个文件
 # install(FILES <files>
