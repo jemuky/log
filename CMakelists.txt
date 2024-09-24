@@ -34,7 +34,7 @@ install(
     # 要生成的 CMake 配置文件的名称
     FILE jelogConfig.cmake
     # 为导出的目标指定一个命名空间
-    NAMESPACE je::
+    # NAMESPACE je::
     # 指定安装路径
     DESTINATION .
 )
@@ -45,7 +45,7 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
     FILES_MATCHING PATTERN "log.h"
 )
 
-export(EXPORT ${PROJECT_NAME} NAMESPACE je::)
+# export(EXPORT ${PROJECT_NAME} NAMESPACE je::)
 
 # 用于安装单个文件
 # install(FILES <files>
