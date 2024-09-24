@@ -28,17 +28,16 @@ install(TARGETS jelog
 )
 
 # 用于安装导出目标的配置文件，使得其他项目可以通过 find_package 找到这个库
-# install(
-#     # 与上面 install(TARGETS 的 EXPORT 名称一致
-#     EXPORT jelog 
-#     # 要生成的 CMake 配置文件的名称
-#     FILE jelogConfig.cmake
-#     # 为导出的目标指定一个命名空间
-#     NAMESPACE je::
-#     # 指定安装路径
-#     DESTINATION .
-# )
-install(EXPORT ${PROJECT_NAME} NAMESPACE je:: DESTINATION .)
+install(
+    # 与上面 install(TARGETS 的 EXPORT 名称一致
+    EXPORT jelog 
+    # 要生成的 CMake 配置文件的名称
+    FILE jelogConfig.cmake
+    # 为导出的目标指定一个命名空间
+    NAMESPACE je::
+    # 指定安装路径
+    DESTINATION .
+)
 
 # 用于安装整个目录及其内容，通常用于安装头文件或资源文件
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
