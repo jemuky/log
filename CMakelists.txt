@@ -16,19 +16,16 @@ add_library(${PROJECT_NAME} STATIC log.cpp)
 # 如果直接设置当前路径会被认为是绝对路径，故看起来只能这样设置
 target_include_directories(${PROJECT_NAME} INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/.> $<INSTALL_INTERFACE:include>)
 
-install(EXPORT ${PROJECT_NAME} NAMESPACE ${PROJECT_NAME}:: DESTINATION lib)
-export(EXPORT ${PROJECT_NAME} NAMESPACE ${PROJECT_NAME}::)
-
 # 用于安装指定的目标（如库或可执行文件）
-# install(TARGETS jelog
-#     EXPORT jelog
-#     # 可执行文件的安装路径
-#     # RUNTIME DESTINATION lib
-#     # 共享库的安装路径
-#     # LIBRARY DESTINATION lib
-#     # 静态库的安装路径
-#     ARCHIVE DESTINATION .
-# )
+install(TARGETS jelog
+    EXPORT jelog
+    # 可执行文件的安装路径
+    # RUNTIME DESTINATION lib
+    # 共享库的安装路径
+    # LIBRARY DESTINATION lib
+    # 静态库的安装路径
+    ARCHIVE DESTINATION .
+)
 
 # 用于安装导出目标的配置文件，使得其他项目可以通过 find_package 找到这个库
 # install(
@@ -41,12 +38,15 @@ export(EXPORT ${PROJECT_NAME} NAMESPACE ${PROJECT_NAME}::)
 #     # 指定安装路径
 #     DESTINATION .
 # )
+install(EXPORT ${PROJECT_NAME} NAMESPACE je:: DESTINATION .)
 
 # 用于安装整个目录及其内容，通常用于安装头文件或资源文件
-# install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-#     DESTINATION include
-#     FILES_MATCHING PATTERN "log.h"
-# )
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+    DESTINATION include
+    FILES_MATCHING PATTERN "log.h"
+)
+
+export(EXPORT ${PROJECT_NAME} NAMESPACE je::)
 
 # 用于安装单个文件
 # install(FILES <files>
