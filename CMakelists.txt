@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED true)
 
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
-add_compile_options(/utf-8 /Os /Od)
+add_compile_options(/utf-8 /Os)
 
 add_library(${PROJECT_NAME} STATIC log.cpp)
 
