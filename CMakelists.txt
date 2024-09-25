@@ -5,11 +5,9 @@ project (jelog LANGUAGES C CXX VERSION 0.0.1)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED true)
 
-# set(CMAKE_BUILD_TYPE Release)
-
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 
-add_compile_options(/utf-8 /Os /MT)
+# add_compile_options(/utf-8 /Os /MT)
 
 add_library(${PROJECT_NAME} STATIC log.cpp)
 
