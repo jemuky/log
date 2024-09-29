@@ -12,12 +12,12 @@ int main() {
         return -1;
     }
     Log::write_console(false);
-    DEBUG("{}", 111);
-    INFO("{}", 222);
-    WARN("{}", 333);
+    JEDEBUG("{}", 111);
+    JEINFO("{}", 222);
+    JEWARN("{}", 333);
 
     Struct s("abc", 123);
-    ERROR("{}", s);
+    JEERROR("{}", s);
 
     test_throughput();
     return 0;
@@ -25,7 +25,7 @@ int main() {
 
 void log_messages(int thread_id, std::atomic<int>& total_msgs, int messages_num) {
     for (int i = 0; i < messages_num; ++i) {
-        ERROR("Thread {}: Log message {}", thread_id, i);
+        JEERROR("Thread {}: Log message {}", thread_id, i);
         total_msgs++;
     }
 }
@@ -50,5 +50,6 @@ void test_throughput() {
     // 计算吞吐量
     double throughput = total_msgs / duration.count(); // 消息数 / 时间（秒）
 
-    INFO("duration: {} seconds, throughput: {} messages per second", duration.count(), throughput);
+    JEINFO("duration: {} seconds, throughput: {} messages per second", duration.count(),
+           throughput);
 }

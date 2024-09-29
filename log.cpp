@@ -42,7 +42,7 @@ bool Log::init() {
         if ((!fs::exists(log_path) || !fs::is_directory(log_path)) &&
             !fs::create_directories(log_path)) {
             get_instance().__is_write_file_ = false;
-            ERROR("CreateDirectory failed, {}", std::strerror(errno));
+            JEERROR("CreateDirectory failed, {}", std::strerror(errno));
             return false;
         }
     }
@@ -51,7 +51,7 @@ bool Log::init() {
     get_instance().__ofs_.open(get_instance().__log_file_, std::ios::app);
     if (!get_instance().__ofs_.is_open()) {
         get_instance().__is_write_file_ = false;
-        ERROR("{}", std::strerror(errno));
+        JEERROR("{}", std::strerror(errno));
         return false;
     }
     return true;
