@@ -133,25 +133,25 @@ void Log::log_print(const char* file, int line, const char* function, const char
 #define PARAM_ERR_FUNCTION __PRETTY_FUNCTION__
 #endif
 
-#define ERROR(format_str, ...)                                                           \
+#define JEERROR(format_str, ...)                                                         \
     if (Log::get_log_lev() <= LogLevel::Error) {                                         \
         Log::log_print(__FILE__, __LINE__, static_cast<const char*>(PARAM_ERR_FUNCTION), \
                        __LOG_COLOR_ERR__, "[ERROR] ", format_str, __VA_ARGS__);          \
     }
 
-#define WARN(format_str, ...)                                                      \
+#define JEWARN(format_str, ...)                                                    \
     if (Log::get_log_lev() <= LogLevel::Warn) {                                    \
         Log::log_print(__FILE__, __LINE__, static_cast<const char*>(__FUNCTION__), \
                        __LOG_COLOR_WARN__, "[WARN] ", format_str, __VA_ARGS__);    \
     }
 
-#define INFO(format_str, ...)                                                      \
+#define JEINFO(format_str, ...)                                                    \
     if (Log::get_log_lev() <= LogLevel::Info) {                                    \
         Log::log_print(__FILE__, __LINE__, static_cast<const char*>(__FUNCTION__), \
                        __LOG_COLOR_INFO__, "[INFO] ", format_str, __VA_ARGS__);    \
     }
 
-#define DEBUG(format_str, ...)                                                     \
+#define JEDEBUG(format_str, ...)                                                   \
     if (Log::get_log_lev() <= LogLevel::Debug) {                                   \
         Log::log_print(__FILE__, __LINE__, static_cast<const char*>(__FUNCTION__), \
                        __LOG_COLOR_DEBUG__, "[DEBUG] ", format_str, __VA_ARGS__);  \
